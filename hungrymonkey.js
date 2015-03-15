@@ -19,9 +19,11 @@ Crafty.e("2D, wall_left")
 Crafty.e("2D, wall_right")
   .attr({x: FW, y: 0, w: 1, h: H});
   
+Crafty.e('Floor, 2D')
+  .attr({x: 0, y: H-FH, w: FW, h: FH});
+  
 /* LOAD ASSETS */
 var sprites = {
-	grass: {w: 720, h: 99, file: "grass.png"},
 	monkey: {w: 256, h: 256, file: "monkey.png"},
 	banana1: {w: 40, h: 30, file: "banana1.png", ripeness: 5},
 	banana2: {w: 50, h: 34, file: "banana2.png", ripeness: 5},
@@ -35,9 +37,6 @@ Object.keys(sprites).forEach(function(spriteKey) {
 	map["sprite_"+spriteKey] = [0,0];
 	Crafty.sprite(s.w, s.h, "assets/"+s.file, map);
 });
-
-Crafty.e('Floor, 2D')
-  .attr({x: 0, y: H-FH, w: FW, h: FH});
 
 /* had to use DOM for the image to work in Chrome and IE */
 Crafty.e('2D, DOM, Image')
@@ -64,6 +63,10 @@ function healthDelta(banana) {
 }
 var bananaCount=0;
 
+/* TODO pixelart has to be enabled for the monkey
+   crafty doesn't support that yet.
+   see https://github.com/craftyjs/Crafty/issues/882
+*/
 var monkey = Crafty.e('2D, Canvas, Twoway, Gravity, Collision, sprite_monkey')
   .attr({x: 0, y: H-70, w: 50, h: 50, z:10})
   .twoway(5,20)
