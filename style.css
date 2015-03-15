@@ -1,3 +1,7 @@
+#game canvas {
+	z-index: 10;
+}
+
 #victory-box {
 	position: absolute;
     top: 0;

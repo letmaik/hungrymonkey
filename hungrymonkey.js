@@ -39,8 +39,9 @@ Object.keys(sprites).forEach(function(spriteKey) {
 Crafty.e('Floor, 2D')
   .attr({x: 0, y: H-FH, w: FW, h: FH});
 
-Crafty.e('2D, Canvas, Image')
-  .attr({x: -10, y: H-FH-20, w: FW+20, h: FH+20})
+/* had to use DOM for the image to work in Chrome and IE */
+Crafty.e('2D, DOM, Image')
+  .attr({x: -10, y: H-FH-20, w: FW+20, h: FH+20, z:-1})
   .image('assets/grass.png', 'repeat-x');
 
 /* GAME LOGIC */
