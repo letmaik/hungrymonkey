@@ -3,14 +3,14 @@ var H=500;
 
 Crafty.init(W,H, document.getElementById('game'));
 Crafty.background('lightblue');
-Crafty.pixelart(true);
+Crafty.pixelart(false);
 
-var FW=500;
+var FW=2000;
 var FH=40;
 
 Crafty.viewport.bounds = {
-	min:{x:-200, y:0}, 
-	max:{x:FW+200, y:H}
+	min:{x:-10, y:0}, 
+	max:{x:FW+10, y:H}
 };
  
 Crafty.e("2D, wall_left")
@@ -40,7 +40,7 @@ Crafty.e('Floor, 2D')
   .attr({x: 0, y: H-FH, w: FW, h: FH});
 
 Crafty.e('2D, Canvas, Image')
-  .attr({x: 0, y: H-FH-20, w: FW, h: FH+20})
+  .attr({x: -10, y: H-FH-20, w: FW+20, h: FH+20})
   .image('assets/grass.png', 'repeat-x');
 
 /* GAME LOGIC */
@@ -85,7 +85,7 @@ var monkey = Crafty.e('2D, Canvas, Twoway, Gravity, Collision, sprite_monkey')
   });
 Crafty.viewport.follow(monkey, 0, 0);
 
-var healthTotalMillis = 1000 * 100;
+var healthTotalMillis = 1000 * 10;
 var healthUpdater = Crafty.bind('EnterFrame', function(d) {
 	var timePassedMillis = d.dt;
 	var deltaHealth = timePassedMillis * healthTotal / healthTotalMillis;
