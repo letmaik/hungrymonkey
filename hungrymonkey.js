@@ -6,22 +6,42 @@ Crafty.background('lightblue');
 Crafty.pixelart(true);
 
 var FW=500;
-var FH=20;
+var FH=40;
 
 Crafty.viewport.bounds = {
 	min:{x:-200, y:0}, 
 	max:{x:FW+200, y:H}
 };
-
-Crafty.e('Floor, 2D, Canvas, Color')
-  .attr({x: 0, y: H-FH, w: FW, h: FH})
-  .color('brown');
-  
+ 
 Crafty.e("2D, wall_left")
   .attr({x: -1, y: 0, w: 1, h: H});
   
 Crafty.e("2D, wall_right")
   .attr({x: FW, y: 0, w: 1, h: H});
+  
+/* LOAD ASSETS */
+var sprites = {
+	grass: {w: 720, h: 99, file: "grass.png"},
+	monkey: {w: 256, h: 256, file: "monkey.png"},
+	banana1: {w: 40, h: 30, file: "banana1.png", ripeness: 5},
+	banana2: {w: 50, h: 34, file: "banana2.png", ripeness: 5},
+	bananatree2: {w: 600, h: 529, cw: 350, file: "bananatree2.png"},
+};
+var bananaSprites = ["banana1", "banana2"];
+
+Object.keys(sprites).forEach(function(spriteKey) {
+	var s = sprites[spriteKey];
+	var map = {}
+	map["sprite_"+spriteKey] = [0,0];
+	Crafty.sprite(s.w, s.h, "assets/"+s.file, map);
+});
+
+Crafty.e('Floor, 2D')
+  .attr({x: 0, y: H-FH, w: FW, h: FH});
+
+Crafty.e('2D, Canvas, Image')
+  .attr({x: 0, y: H-FH-20, w: FW, h: FH+20})
+  .image('assets/grass.png', 'repeat-x');
 
 /* GAME LOGIC */
 var healthTotal = 100;
@@ -43,9 +63,8 @@ function healthDelta(banana) {
 }
 var bananaCount=0;
 
-Crafty.sprite(256, 256, "assets/monkey.png", {sprite_monkey:[0,0]});
 var monkey = Crafty.e('2D, Canvas, Twoway, Gravity, Collision, sprite_monkey')
-  .attr({x: 0, y: H-70, w: 50, h: 50})
+  .attr({x: 0, y: H-70, w: 50, h: 50, z:10})
   .twoway(5,20)
   .gravity('Floor')
   .gravityConst(1)
@@ -66,7 +85,7 @@ var monkey = Crafty.e('2D, Canvas, Twoway, Gravity, Collision, sprite_monkey')
   });
 Crafty.viewport.follow(monkey, 0, 0);
 
-var healthTotalMillis = 1000 * 10;
+var healthTotalMillis = 1000 * 100;
 var healthUpdater = Crafty.bind('EnterFrame', function(d) {
 	var timePassedMillis = d.dt;
 	var deltaHealth = timePassedMillis * healthTotal / healthTotalMillis;
@@ -79,10 +98,30 @@ var healthUpdater = Crafty.bind('EnterFrame', function(d) {
 	$('#health').html(Math.round(health));
 });
 
-for (var i = 0; i < 3; i++){
-  Crafty.e('2D, Canvas, Color, banana')
-    .attr({x: 100 + 100*i, y: H-270, w: 10, h: 30, ripeness: 5})
-    .color('yellow');
+function newBanana(x, y, spriteKey) {
+  var s = sprites[spriteKey];
+  Crafty.e('2D, Canvas, banana, sprite_'+spriteKey)
+    .attr({x: x, y: y, w: s.w, h: s.h, z: 2,
+	       ripeness: s.ripeness});
   bananaCount++;
 }
 
+for (var i = 0; i < 3; i++){
+  newBanana(100 + 100*i, H-270, bananaSprites[i%bananaSprites.length]);
+}
+
+function getEntitySize(s) {
+	var w = s.hasOwnProperty("cw") ? s.cw : s.w;
+	var h = s.hasOwnProperty("cw") ? s.cw*s.h/s.w : s.h;
+	return {w:w,h:h};
+}
+
+function plantTree(x, spriteKey) {
+	var s = sprites[spriteKey];
+	var size = getEntitySize(s);
+	var tree = Crafty.e('2D, Canvas, tree, sprite_'+spriteKey)
+	  .attr({x: x-size.w/2, y: H-size.h-FH, 
+	         w: size.w, h: size.h});
+	return tree;
+}
+plantTree(200, "bananatree2");
