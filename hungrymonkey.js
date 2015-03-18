@@ -25,11 +25,14 @@ Crafty.e('Floor, 2D')
 /* LOAD ASSETS */
 var sprites = {
 	monkey: {w: 256, h: 256, file: "monkey.png"},
-	banana1: {w: 40, h: 30, file: "banana1.png", ripeness: 5},
-	banana2: {w: 50, h: 34, file: "banana2.png", ripeness: 5},
-	bananatree2: {w: 600, h: 529, cw: 350, file: "bananatree2.png"},
+	banana1: {w: 40, h: 30, file: "banana1.png", ripeness: 1},
+	banana5: {w: 40, h: 30, file: "banana5.png", ripeness: 5},
+	bananas1: {w: 50, h: 34, file: "bananas1.png", ripeness: 1},
+	bananas5: {w: 50, h: 34, file: "bananas5.png", ripeness: 5},
+	bananatree2: {w: 600, h: 529, file: "bananatree2.png"},
+	giraffe: {w: 335, h: 421, file: "giraffe.png"}
 };
-var bananaSprites = ["banana1", "banana2"];
+var bananaSprites = ["banana1", "banana5", "bananas1", "bananas5"];
 
 Object.keys(sprites).forEach(function(spriteKey) {
 	var s = sprites[spriteKey];
@@ -47,19 +50,19 @@ Crafty.e('2D, DOM, Image')
 var healthTotal = 100;
 var health=healthTotal;
 function healthDelta(banana) {
-	/* 
-	1 -> 4.4
-	2 -> 7.5
-	3 -> 9.4
-	4 -> 10
-	5 -> 9.4
-	6 -> 7.5
-	7 -> 4.4
-	8 -> 0
-	9 -> -5.6
-	10 -> -12.5
-	*/
-	return -Math.pow(Math.sqrt(10)*(banana.ripeness-4)/4, 2)+10;
+	var bananaHealthDeltas = [
+		-10, // 1 green (poisonous)
+		-5, // 2
+		0, // 3
+		5, // 4
+		10, // 5 yellow (most nutrition)
+		9, // 6
+		7, // 7 brown
+		5, // 8 black (still good, but sugary and alcoholic)
+		0, // 9
+		-5 // 10 black rotten
+	];
+	return bananaHealthDeltas[banana.ripeness-1];
 }
 var bananaCount=0;
 
@@ -69,7 +72,7 @@ var bananaCount=0;
 */
 var monkey = Crafty.e('2D, Canvas, Twoway, Gravity, Collision, sprite_monkey')
   .attr({x: 0, y: H-70, w: 50, h: 50, z:10})
-  .twoway(5,20)
+  .twoway(5,19)
   .gravity('Floor')
   .gravityConst(1)
   .collision()
@@ -82,10 +85,6 @@ var monkey = Crafty.e('2D, Canvas, Twoway, Gravity, Collision, sprite_monkey')
 	health += healthDelta(banana);
 	banana.destroy();
 	bananaCount--;
-	if (bananaCount == 0){
-      $('#victory-box').show();
-	  Crafty.stop();
-	}
   });
 Crafty.viewport.follow(monkey, 0, 0);
 
@@ -110,22 +109,44 @@ function newBanana(x, y, spriteKey) {
   bananaCount++;
 }
 
-for (var i = 0; i < 3; i++){
-  newBanana(100 + 100*i, H-270, bananaSprites[i%bananaSprites.length]);
-}
-
-function getEntitySize(s) {
-	var w = s.hasOwnProperty("cw") ? s.cw : s.w;
-	var h = s.hasOwnProperty("cw") ? s.cw*s.h/s.w : s.h;
+function getEntitySize(s, ch) {
+	var w = ch*s.w/s.h;
+	var h = ch;
 	return {w:w,h:h};
 }
 
-function plantTree(x, spriteKey) {
+function plantTree(x, h, spriteKey) {
 	var s = sprites[spriteKey];
-	var size = getEntitySize(s);
+	var size = getEntitySize(s, h);
 	var tree = Crafty.e('2D, Canvas, tree, sprite_'+spriteKey)
 	  .attr({x: x-size.w/2, y: H-size.h-FH, 
 	         w: size.w, h: size.h});
 	return tree;
 }
-plantTree(200, "bananatree2");
+
+function placeGiraffe(x) {
+	var s = sprites["giraffe"];
+	var size = getEntitySize(s, 200);
+	var giraffe = Crafty.e('2D, Canvas, giraffe, sprite_giraffe')
+	  .attr({x: x-size.w/2, y: H-size.h-FH, 
+	         w: size.w, h: size.h});
+	// FIXME should not force-jump/glitch onto the platform
+    Crafty.e('Floor, 2D')
+      .attr({x: x, y: H-FH-size.h*.425, w: size.h*.25, h: 1});
+    Crafty.e('Floor, 2D')
+      .attr({x: x-size.h*.21, y: H-FH-size.h*0.9, w: size.h*0.15, h: 1});
+	return giraffe;
+}
+
+for (var i = 0; i < 3; i++){
+  newBanana(130 + 40*i, H-270-(Math.random()-.5)*30, bananaSprites[i%bananaSprites.length]);
+}
+
+plantTree(200, 320, "bananatree2");
+plantTree(400, 500, "bananatree2");
+placeGiraffe(500);
+
+/* WINNING:
+$('#victory-box').show();
+Crafty.stop();
+*/
