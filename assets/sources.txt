@@ -6,3 +6,4 @@ banana1.png			http://cliparts.co/clipart/16910
 banana2.png			http://cliparts.co/clipart/16657
 grass.png			http://per-ankh.deviantart.com/art/MapleStory-Grass-Tile-423960012
 giraffe.png			http://www.clipartpanda.com/clipart_images/animals-clip-art-page-12-36637335
+archway.png     http://www.clubpenguinwiki.info/wiki/File:CircularArchway.PNG
