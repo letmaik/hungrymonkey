@@ -2,8 +2,8 @@ bananatree2.png		http://cliparts.co/clipart/2455945
 appletree.png		http://cliparts.co/clipart/2335208
 lemontree.png		http://cliparts.co/clipart/3047
 monkey.png			http://l4d2.gamebanana.com/sprays/66409
-banana1.png			http://cliparts.co/clipart/16910
-banana2.png			http://cliparts.co/clipart/16657
+banana5.png			http://cliparts.co/clipart/16910
+bananas5.png		http://cliparts.co/clipart/16657
 grass.png			http://per-ankh.deviantart.com/art/MapleStory-Grass-Tile-423960012
 giraffe.png			http://www.clipartpanda.com/clipart_images/animals-clip-art-page-12-36637335
-archway.png     http://www.clubpenguinwiki.info/wiki/File:CircularArchway.PNG
+archway.svg			http://www.clipshrine.com/archway-arch-road-11417-medium.html
