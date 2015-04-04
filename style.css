@@ -1,31 +1,30 @@
-#victory-box {
+.infobox {
 	position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    width: 300px;
-    height: 70px;
     margin: auto;
 	text-align: center;
 	z-index: 30;
 	font-weight: bold;
+}
+
+#victory-box {
+    width: 300px;
+    height: 70px;
 	display: none;
 }
 
 #defeat-box {
-	position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
     width: 200px;
     height: 70px;
-    margin: auto;
-	text-align: center;
-	z-index: 30;
-	font-weight: bold;
 	display: none;
+}
+
+#start-box {
+    width: 200px;
+    height: 50px;
 }
 
 #health-bar {
@@ -35,4 +34,5 @@
     width: 200px;
     height: 50px;
 	z-index: 20;
+    display: none;
 }
