@@ -42,6 +42,12 @@ function setupLevel(levelWidth) {
     });
 }
 
+Crafty.bind('KeyDown', function (e) {
+    if (e.key == Crafty.keys.ENTER) {
+        $('.infobox:visible a').trigger('click');
+    }
+});
+
 $('#restart-level').click(function(e) {
     e.preventDefault();
     startLevel(currentLevel);
@@ -49,6 +55,10 @@ $('#restart-level').click(function(e) {
 $('#start-game').click(function(e) {
     e.preventDefault();
     startLevel(1);
+});
+$('#next-level').click(function(e) {
+    e.preventDefault();
+    startLevel(currentLevel+1);
 });
 function startLevel(level) {
     $('.infobox').hide();
@@ -250,6 +260,14 @@ Crafty.defineScene("level1", function() {
     for (var i = 0; i < 3; i++){
       newBanana(130 + 40*i, H-270-(Math.random()-.5)*30, bananaSprites[i%bananaSprites.length]);
     }
+    placeGiraffe(500);
+});
+
+Crafty.defineScene("level2", function() {
+    var levelWidth = 2200;
+    setupLevel(levelWidth);
+    plantTree(200, 320, "bananatree2");
+    plantTree(700, 500, "bananatree2");
     placeGiraffe(500);
 });
 
