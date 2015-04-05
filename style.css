@@ -36,3 +36,14 @@
 	z-index: 20;
     display: none;
 }
+
+@keyframes archway {
+    0% { background-color: rgb(50,0,0) }
+    30% { background-color: rgb(100,0,0) }
+    40% { background-color: rgb(60,0,0) }
+    50% { background-color: rgb(40,0,0) }
+    60% { background-color: rgb(60,0,0) }
+    70% { background-color: rgb(90,0,0) }
+    90% { background-color: rgb(70,0,0) }
+    100% { background-color: rgb(90,0,0) }
+}

@@ -7,3 +7,4 @@ bananas5.png		http://cliparts.co/clipart/16657
 grass.png			http://per-ankh.deviantart.com/art/MapleStory-Grass-Tile-423960012
 giraffe.png			http://www.clipartpanda.com/clipart_images/animals-clip-art-page-12-36637335
 archway.svg			http://www.clipshrine.com/archway-arch-road-11417-medium.html
+torch.png			http://clubpenguin.wikia.com/wiki/File:Wall_Torch.PNG

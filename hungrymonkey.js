@@ -84,6 +84,7 @@ var sprites = {
 	giraffe: {w: 335, h: 421, file: "giraffe.png"},
     archway: {w: 47, h: 110, file: "archway.svg", map: {sprite_archway_left:[0,0],
                                                         sprite_archway_right:[1,0]}},
+    torch: {w: 47, h: 100, file: "torch.png"}
 };
 
 Object.keys(sprites).forEach(function(spriteKey) {
@@ -261,7 +262,18 @@ function buildArchway(levelWidth) {
     Crafty.e('2D, DOM, Color')
       .attr({x: x+size.w*0.3, y: y+size.h*0.3, z: 0,
              w: size.w, h: size.h*0.5})
-      .color('black');
+      .color('black')
+      .css({'animation': 'archway 1s linear infinite alternate'});
+    
+    var torchSprite = sprites["torch"];
+    var torchSize = getEntitySize(torchSprite, 40);
+    Crafty.e('2D, DOM, sprite_torch')
+      .attr({x: x+size.w*0.65, y: y+size.h*0.4, z: 0,
+             w: torchSize.w, h: torchSize.h});
+    Crafty.e('2D, DOM, sprite_torch')
+      .attr({x: x+size.w*0.9, y: y+size.h*0.37, z: 0,
+             w: torchSize.w, h: torchSize.h});
+    
     /*
     Crafty.e('2D, Floor, Collision')
       .attr({x: x+10, y: y+20, w: size.w*2, h: 20,
