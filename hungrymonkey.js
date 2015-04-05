@@ -68,6 +68,7 @@ function startLevel(level) {
   
 /* LOAD ASSETS */
 var sprites = {
+    _preload1: {w: 256, h: 256, file: 'grass.png'},
 	monkey: {w: 256, h: 256, file: "monkey.png", pixelart: true},
 	banana1: {w: 40, h: 30, file: "banana1.png", ripeness: 1, cx: 38, cy: 1},
     banana3: {w: 40, h: 30, file: "banana3.png", ripeness: 3, cx: 38, cy: 1},
