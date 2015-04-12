@@ -69,26 +69,26 @@ function startLevel(level) {
 /* LOAD ASSETS */
 var sprites = {
     _preload1: {w: 256, h: 256, file: 'grass.png'},
-	monkey: {w: 256, h: 256, file: "monkey.png", pixelart: true},
-	banana1: {w: 40, h: 30, file: "banana1.png", ripeness: 1, cx: 38, cy: 1},
+    monkey: {w: 256, h: 256, file: "monkey.png", pixelart: true},
+    banana1: {w: 40, h: 30, file: "banana1.png", ripeness: 1, cx: 38, cy: 1},
     banana3: {w: 40, h: 30, file: "banana3.png", ripeness: 3, cx: 38, cy: 1},
-	banana5: {w: 40, h: 30, file: "banana5.png", ripeness: 5, cx: 38, cy: 1},
+    banana5: {w: 40, h: 30, file: "banana5.png", ripeness: 5, cx: 38, cy: 1},
     banana6: {w: 40, h: 30, file: "banana6.png", ripeness: 6, cx: 38, cy: 1},
     banana9: {w: 40, h: 30, file: "banana9.png", ripeness: 9, cx: 38, cy: 1},
     banana10: {w: 40, h: 30, file: "banana10.png", ripeness: 10, cx: 38, cy: 1},
-	bananas1: {w: 50, h: 34, file: "bananas1.png", ripeness: 1, cx: 40, cy: 1},
-	bananas5: {w: 50, h: 34, file: "bananas5.png", ripeness: 5, cx: 40, cy: 1},
-	bananatree: {w: 600, h: 529, file: "bananatree2.png"},
+    bananas1: {w: 50, h: 34, file: "bananas1.png", ripeness: 1, factor: 3, cx: 40, cy: 1},
+    bananas5: {w: 50, h: 34, file: "bananas5.png", ripeness: 5, factor: 3, cx: 40, cy: 1},
+    bananatree: {w: 600, h: 529, file: "bananatree2.png"},
     appletree: {w: 415, h: 550, file: "appletree.png"},
     lemontree: {w: 612, h: 800, file: "lemontree.png"},
-	giraffe: {w: 335, h: 421, file: "giraffe.png"},
+    giraffe: {w: 335, h: 421, file: "giraffe.png"},
     archway: {w: 47, h: 110, file: "archway.svg", map: {sprite_archway_left:[0,0],
                                                         sprite_archway_right:[1,0]}},
     torch: {w: 47, h: 100, file: "torch.png"}
 };
 
 Object.keys(sprites).forEach(function(spriteKey) {
-	var s = sprites[spriteKey];
+    var s = sprites[spriteKey];
     if (s.hasOwnProperty('map')) {
         var map = s.map;
     } else {
@@ -99,7 +99,7 @@ Object.keys(sprites).forEach(function(spriteKey) {
     if (s.hasOwnProperty('pixelart')) {
         pixelart = s.pixelart;
     }
-	Crafty.sprite(s.w, s.h, "assets/"+s.file, map, null, null, null, pixelart);
+    Crafty.sprite(s.w, s.h, "assets/"+s.file, map, null, null, null, pixelart);
 });
 
 // positions relative to connector points of bananas on trees
@@ -120,19 +120,20 @@ var healthTotal = 100;
 var health=healthTotal;
 var currentLevel = 1;
 function healthDelta(banana) {
-	var bananaHealthDeltas = [
-		-10, // 1 green (poisonous)
-		-5, // 2
-		0, // 3
-		5, // 4
-		10, // 5 yellow (most nutrition)
-		9, // 6
-		7, // 7 brown
-		5, // 8 black (still good, but sugary and alcoholic)
-		0, // 9
-		-5 // 10 black rotten
-	];
-	return bananaHealthDeltas[banana.ripeness-1];
+    var bananaHealthDeltas = [
+        -10, // 1 green (poisonous)
+        -5, // 2
+        0, // 3
+        5, // 4
+        10, // 5 yellow (most nutrition)
+        9, // 6
+        7, // 7 brown
+        5, // 8 black (still good, but sugary and alcoholic)
+        0, // 9
+        -5 // 10 black rotten
+    ];
+    var delta = bananaHealthDeltas[banana.ripeness-1] * banana.factor;
+    return delta;
 }
 var bananaCount=0;
 
@@ -198,27 +199,27 @@ function newBanana(x, y, spriteKey) {
   var s = sprites[spriteKey];
   Crafty.e('2D, DOM, banana, sprite_'+spriteKey)
     .attr({x: x, y: y, w: s.w, h: s.h, z: 6,
-	       ripeness: s.ripeness});
+           ripeness: s.ripeness, factor: s.hasOwnProperty('factor') ? s.factor : 1});
   bananaCount++;
 }
 
 function getEntitySize(s, ch) {
     var scale = ch/s.h;
-	var w = scale*s.w;
-	var h = ch;
-	return {w:w,h:h,scale:scale};
+    var w = scale*s.w;
+    var h = ch;
+    return {w:w,h:h,scale:scale};
 }
 
 function plantTree(treeSpec, x) {
     var h = treeSpec.height;
     var treeType = treeSpec.type;
-	var s = sprites[treeType];
-	var size = getEntitySize(s, h);
+    var s = sprites[treeType];
+    var size = getEntitySize(s, h);
     var treeX = x-size.w/2;
     var treeY = H-size.h-FH;
-	var tree = Crafty.e('2D, DOM, tree, sprite_'+treeType)
-	  .attr({x: treeX, y: treeY, z: 5,
-	         w: size.w, h: size.h});
+    var tree = Crafty.e('2D, DOM, tree, sprite_'+treeType)
+      .attr({x: treeX, y: treeY, z: 5,
+             w: size.w, h: size.h});
     // bananas
     if (treeSpec.hasOwnProperty('slots')) {
         var slots = trees[treeType].slots;
@@ -230,35 +231,35 @@ function plantTree(treeSpec, x) {
             newBanana(itemX, itemY, bt);
         });
     }
-	return tree;
+    return tree;
 }
 
 function placeGiraffe(x) {
-	var s = sprites["giraffe"];
-	var size = getEntitySize(s, 200);
-	var giraffe = Crafty.e('2D, DOM, giraffe, sprite_giraffe')
-	  .attr({x: x-size.w/2, y: H-size.h-FH, z: 7, 
-	         w: size.w, h: size.h});
-	// hit boxes need some height to prevent tunneling
+    var s = sprites["giraffe"];
+    var size = getEntitySize(s, 200);
+    var giraffe = Crafty.e('2D, DOM, giraffe, sprite_giraffe')
+      .attr({x: x-size.w/2, y: H-size.h-FH, z: 7, 
+             w: size.w, h: size.h});
+    // hit boxes need some height to prevent tunneling
     Crafty.e('Floor, 2D')
       .attr({x: x, y: H-FH-size.h*.425, w: size.h*.25, h: 20});
     Crafty.e('Floor, 2D')
       .attr({x: x-size.h*.21, y: H-FH-size.h*0.89, w: size.h*0.15, h: 20});
-	return giraffe;
+    return giraffe;
 }
 
 function buildArchway(levelWidth) {
-	var s = sprites["archway"];
-	var size = getEntitySize(s, 220);
+    var s = sprites["archway"];
+    var size = getEntitySize(s, 220);
     var x = levelWidth-size.w*1.82;
     var yoffset = 50;
     var y = H-size.h-FH+yoffset;    
-	Crafty.e('2D, DOM, archway_left, sprite_archway_left')
-	  .attr({x: x, y: y, z: 8,
-	         w: size.w, h: size.h});
-	Crafty.e('2D, DOM, archway_right, sprite_archway_right')
-	  .attr({x: x+size.w, y: y, z: 10,
-	         w: size.w, h: size.h});
+    Crafty.e('2D, DOM, archway_left, sprite_archway_left')
+      .attr({x: x, y: y, z: 8,
+             w: size.w, h: size.h});
+    Crafty.e('2D, DOM, archway_right, sprite_archway_right')
+      .attr({x: x+size.w, y: y, z: 10,
+             w: size.w, h: size.h});
     Crafty.e('2D, DOM, Color')
       .attr({x: x+size.w*0.3, y: y+size.h*0.3, z: 0,
              w: size.w, h: size.h*0.5})
@@ -290,8 +291,41 @@ Crafty.defineScene("start", function() {
 });
 
 Crafty.defineScene("level1", function() {
-    var levelWidth = 800;
+    var levelWidth = 2000;
     setupLevel(levelWidth);
+    
+    var tree1 = {
+        type: 'bananatree',
+        height: 320,
+        slots: [
+            {   index: 0,
+                bananaType: 'banana5'
+            },
+            {   index: 4,
+                bananaType: 'banana5'
+            },
+        ]
+    };
+
+    var tree2 = {
+        type: 'bananatree',
+        height: 400,
+        slots: [
+        ]
+    };
+    
+    plantTree(tree1, 500);
+    plantTree(tree2, 1500);
+});
+
+Crafty.defineScene("level2", function() {
+    var levelWidth = 2500;
+    setupLevel(levelWidth);
+    
+    var at = {
+        type: 'appletree',
+        height: 300
+    };
     
     var tree1 = {
         type: 'bananatree',
@@ -300,37 +334,34 @@ Crafty.defineScene("level1", function() {
             {   index: 0,
                 bananaType: 'banana1'
             },
-            {   index: 2,
-                bananaType: 'banana5'
-            },
             {   index: 4,
-                bananaType: 'banana10'
-            }
+                bananaType: 'banana1'
+            },
         ]
     };
     
     var tree2 = {
-        type: 'appletree',
-        height: 300
+        type: 'bananatree',
+        height: 320,
+        slots: [
+            {   index: 0,
+                bananaType: 'banana5'
+            },
+            {   index: 1,
+                bananaType: 'banana5'
+            },
+            {   index: 3,
+                bananaType: 'banana5'
+            },
+            {   index: 4,
+                bananaType: 'banana5'
+            },
+        ]
     };
-    
-    var tree3 = {
-        type: 'lemontree',
-        height: 300
-    };
-    
-    plantTree(tree1, 200);
-    plantTree(tree2, 400);
-    plantTree(tree3, 600);
-    placeGiraffe(500);
-});
 
-Crafty.defineScene("level2", function() {
-    var levelWidth = 2200;
-    setupLevel(levelWidth);
-    plantTree(200, 320, "bananatree");
-    plantTree(700, 500, "bananatree");
-    placeGiraffe(500);
+    plantTree(tree1, 500);
+    plantTree(at, 1200);
+    plantTree(tree2, 1800);
 });
 
 Crafty.enterScene("start");
