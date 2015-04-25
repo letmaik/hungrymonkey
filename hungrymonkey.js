@@ -74,7 +74,7 @@ var sprites = {
     banana3: {w: 40, h: 30, file: "banana3.png", ripeness: 3, cx: 38, cy: 1},
     banana5: {w: 40, h: 30, file: "banana5.png", ripeness: 5, cx: 38, cy: 1},
     banana6: {w: 40, h: 30, file: "banana6.png", ripeness: 6, cx: 38, cy: 1},
-    banana9: {w: 40, h: 30, file: "banana9.png", ripeness: 9, cx: 38, cy: 1},
+    banana8: {w: 40, h: 30, file: "banana8.png", ripeness: 8, cx: 38, cy: 1},
     banana10: {w: 40, h: 30, file: "banana10.png", ripeness: 10, cx: 38, cy: 1},
     bananas1: {w: 50, h: 34, file: "bananas1.png", ripeness: 1, factor: 3, cx: 40, cy: 1},
     bananas5: {w: 50, h: 34, file: "bananas5.png", ripeness: 5, factor: 3, cx: 40, cy: 1},
@@ -362,6 +362,89 @@ Crafty.defineScene("level2", function() {
     plantTree(tree1, 500);
     plantTree(at, 1200);
     plantTree(tree2, 1800);
+});
+
+Crafty.defineScene("level3", function() {
+    var levelWidth = 3000;
+    setupLevel(levelWidth);
+    
+    var at = {
+        type: 'appletree',
+        height: 300
+    };
+    
+    var tree1 = {
+        type: 'bananatree',
+        height: 320,
+        slots: [
+            {   index: 0,
+                bananaType: 'banana5'
+            },
+            {   index: 1,
+                bananaType: 'banana3'
+            },
+            {   index: 4,
+                bananaType: 'banana3'
+            },
+        ]
+    };
+    
+    var tree2 = {
+        type: 'bananatree',
+        height: 280,
+        slots: [
+            {   index: 0,
+                bananaType: 'banana3'
+            },
+            {   index: 1,
+                bananaType: 'banana5'
+            },
+            {   index: 3,
+                bananaType: 'banana1'
+            },
+            {   index: 4,
+                bananaType: 'banana5'
+            },
+        ]
+    };
+    var tree3 = {
+        type: 'bananatree',
+        height: 340,
+        slots: [
+            {   index: 1,
+                bananaType: 'banana8'
+            },
+            {   index: 3,
+                bananaType: 'banana8'
+            },
+            {   index: 4,
+                bananaType: 'banana6'
+            },
+        ]
+    };
+    var tree4 = {
+        type: 'bananatree',
+        height: 320,
+        slots: [
+            {   index: 0,
+                bananaType: 'banana3'
+            },
+            {   index: 3,
+                bananaType: 'banana3'
+            },
+            {   index: 4,
+                bananaType: 'banana3'
+            },
+        ]
+    };
+
+    plantTree(tree1, 500);
+    plantTree(tree2, 800);
+    plantTree(tree3, 1050);
+    plantTree(at, 1800);
+    plantTree(tree4, 2200);
+    plantTree(at, 2500);
+    
 });
 
 Crafty.enterScene("start");
