@@ -10,6 +10,10 @@
     font-weight: bold;
 }
 
+#game {
+    margin: 0 auto 0 auto;
+}
+
 #victory-box {
     width: 300px;
     height: 70px;
