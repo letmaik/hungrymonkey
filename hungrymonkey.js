@@ -290,6 +290,15 @@ Crafty.defineScene("start", function() {
     $('#start-box').show();
 });
 
+var appleTree = {
+    type: 'appletree',
+    height: 300
+};
+var lemonTree = {
+    type: 'lemontree',
+    height: 300
+};
+
 Crafty.defineScene("level1", function() {
     var levelWidth = 2000;
     setupLevel(levelWidth);
@@ -321,11 +330,6 @@ Crafty.defineScene("level1", function() {
 Crafty.defineScene("level2", function() {
     var levelWidth = 2500;
     setupLevel(levelWidth);
-    
-    var at = {
-        type: 'appletree',
-        height: 300
-    };
     
     var tree1 = {
         type: 'bananatree',
@@ -360,18 +364,13 @@ Crafty.defineScene("level2", function() {
     };
 
     plantTree(tree1, 500);
-    plantTree(at, 1200);
+    plantTree(appleTree, 1200);
     plantTree(tree2, 1800);
 });
 
 Crafty.defineScene("level3", function() {
     var levelWidth = 3000;
     setupLevel(levelWidth);
-    
-    var at = {
-        type: 'appletree',
-        height: 300
-    };
     
     var tree1 = {
         type: 'bananatree',
@@ -441,9 +440,63 @@ Crafty.defineScene("level3", function() {
     plantTree(tree1, 500);
     plantTree(tree2, 800);
     plantTree(tree3, 1050);
-    plantTree(at, 1800);
+    plantTree(appleTree, 1800);
     plantTree(tree4, 2200);
-    plantTree(at, 2500);
+    plantTree(appleTree, 2500);
+});
+
+Crafty.defineScene("level4", function() {
+    var levelWidth = 3000;
+    setupLevel(levelWidth);
+    
+    var giantTree = {
+        type: 'bananatree',
+        height: 500,
+        slots: [
+            {   index: 0,
+                bananaType: 'banana5'
+            },         
+            {   index: 1,
+                bananaType: 'banana5'
+            },
+            {   index: 3,
+                bananaType: 'banana5'
+            },
+            {   index: 4,
+                bananaType: 'banana5'
+            },
+        ]
+    };
+    var tree1 = {
+        type: 'bananatree',
+        height: 350
+    };
+    var tree2 = {
+        type: 'bananatree',
+        height: 280,
+        slots: [
+            {   index: 0,
+                bananaType: 'banana3'
+            },
+            {   index: 1,
+                bananaType: 'banana5'
+            },
+            {   index: 3,
+                bananaType: 'banana1'
+            },
+            {   index: 4,
+                bananaType: 'banana5'
+            },
+        ]
+    };
+
+    plantTree(lemonTree, 500);
+    placeGiraffe(650);
+    plantTree(tree1, 900);
+    plantTree(tree2, 1200);
+    plantTree(tree1, 1600);
+    plantTree(giantTree, 2200);
+    placeGiraffe(2300);
     
 });
 
