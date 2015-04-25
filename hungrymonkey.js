@@ -188,7 +188,17 @@ function startHealthUpdater() {
             health = 0;
             Crafty.trigger('levelLost');
         }
-        $('#health').html(Math.round(health));
+        $('#health-bar').css('width', Math.round(W*health/healthTotal) + "px");
+        if (health/healthTotal < 0.3) {
+            $('#health-bar').removeClass('health-medium health-high');      
+            $('#health-bar').addClass('health-low'); 
+        } else if (health/healthTotal < 0.6) {
+            $('#health-bar').removeClass('health-low health-high');  
+            $('#health-bar').addClass('health-medium');
+        } else {
+            $('#health-bar').removeClass('health-low health-medium');
+            $('#health-bar').addClass('health-high');
+        } 
     };
     Crafty.bind('EnterFrame', healthUpdater);
     $('#health-bar').show();

@@ -1,25 +1,25 @@
 .infobox {
-	position: absolute;
+    position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     margin: auto;
-	text-align: center;
-	z-index: 30;
-	font-weight: bold;
+    text-align: center;
+    z-index: 30;
+    font-weight: bold;
 }
 
 #victory-box {
     width: 300px;
     height: 70px;
-	display: none;
+    display: none;
 }
 
 #defeat-box {
     width: 200px;
     height: 70px;
-	display: none;
+    display: none;
 }
 
 #start-box {
@@ -28,13 +28,25 @@
 }
 
 #health-bar {
-	position: absolute;
-    top: 10px;
-    left: 10px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
     width: 200px;
-    height: 50px;
-	z-index: 20;
+    height: 20px;
+    z-index: 20;
     display: none;
+}
+
+.health-high {
+    background-color: green;
+}
+
+.health-medium {
+    background-color: orange;
+}
+
+.health-low {
+    background-color: red;
 }
 
 @keyframes archway {
