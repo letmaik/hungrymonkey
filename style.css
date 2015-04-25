@@ -46,7 +46,7 @@
 }
 
 .health-low {
-    background-color: red;
+    background-color: #D90000;
 }
 
 @keyframes archway {
