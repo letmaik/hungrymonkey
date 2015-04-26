@@ -1,3 +1,14 @@
+html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+}
+
 .infobox {
     position: absolute;
     top: 0;
@@ -8,10 +19,6 @@
     text-align: center;
     z-index: 30;
     font-weight: bold;
-}
-
-#game {
-    margin: 0 auto 0 auto;
 }
 
 #victory-box {
