@@ -5,7 +5,7 @@ var FH=40;
 Crafty.init(W,H, document.getElementById('game'));
 Crafty.pixelart(false);
 
-function setupLevel(levelWidth) {
+function setupLevelStatic(levelWidth) {
     var FW=levelWidth;
 
     Crafty.background('lightblue');
@@ -27,9 +27,14 @@ function setupLevel(levelWidth) {
       .attr({x: -10, y: H-FH-20, w: FW+20, h: FH+20, z: 1})
       .image('assets/grass.png', 'repeat-x');
       
+    buildArchway(levelWidth);
+}
+
+function setupLevel(levelWidth) {
+    setupLevelStatic(levelWidth);
+      
     health=healthTotal;
     
-    buildArchway(levelWidth);
     var monkey = spawnMonkey(levelWidth);
     var healthUpdater = startHealthUpdater();
     Crafty.one('levelWon', function() {
@@ -296,7 +301,8 @@ function buildArchway(levelWidth) {
 // # Define levels                                  #
 // ##################################################
 Crafty.defineScene("start", function() {
-    Crafty.background('black');
+    setupLevelStatic(1000);
+    Crafty.viewport.x = 10; // not sure why +10
     $('#start-box').show();
 });
 
