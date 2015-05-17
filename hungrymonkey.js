@@ -175,7 +175,7 @@ function spawnMonkey(levelWidth) {
       }).bind("CheckLanding", function(ground) {
         // disallow landing if monkey's feet are not above platform
         // this prevents snapping to platforms that would not have been reached otherwise
-        if (this._y + this._h > ground._y + this._vy)
+        if (this._y + this._h > ground._y + this._dy)
           this.canLand = false;
       });
 
