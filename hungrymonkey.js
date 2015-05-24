@@ -61,7 +61,7 @@ $('#restart-level').click(function(e) {
 });
 $('#start-game').click(function(e) {
     e.preventDefault();
-    startLevel(1);
+    startLevel(5);
 });
 $('#next-level').click(function(e) {
     e.preventDefault();
@@ -301,7 +301,7 @@ function buildArchway(levelWidth) {
 
 function placeHoverboard(x, monkey) {
     var h = 20;
-    var hoverboard = Crafty.e('2D, DOM, Color, Floor')
+    var hoverboard = Crafty.e('2D, DOM, Color, Floor, Motion')
       .attr({x: x, y: H-FH-h-20, z: 8,
              w: 100, h: h})
       .color('#FF5677');
@@ -309,18 +309,31 @@ function placeHoverboard(x, monkey) {
     var hbSpeed = normalSpeed.x*1.5;
     var hoverboardSpeed = {x: hbSpeed, y: hbSpeed};
 
-    monkey
-      .requires('Keyboard')
-      .bind('KeyDown', function () { 
+    function jumpHandler() { 
         if (this.isDown('UP_ARROW')) {
             monkey.detach(hoverboard);
             monkey.speed(normalSpeed);
+            hoverboard.vx = monkey.vx;
+            // TODO maybe use enterframe
+            var iv = setInterval(function(){ 
+                hoverboard.vx /= 1.5;
+                console.log("dsd");
+                if (hoverboard.vx < 0.01) {
+                    clearInterval(iv);
+                }                
+            }, 300);
+            monkey.unbind('KeyDown', jumpHandler);
         }
-      })
+    };
+
+    monkey
+      .requires('Keyboard')
       .bind("LandedOnGround", function(ground) {
         if (ground == hoverboard) {
+            hoverboard.vx = 0;
             monkey.attach(hoverboard);
             monkey.speed(hoverboardSpeed);
+            monkey.bind('KeyDown', jumpHandler);
         }
       });
 }
