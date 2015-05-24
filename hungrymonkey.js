@@ -45,6 +45,8 @@ function setupLevel(levelWidth) {
         $('#defeat-box').show();
         freezeGame(healthUpdater, monkey);
     });
+    
+    return monkey;
 }
 
 Crafty.bind('KeyDown', function (e) {
@@ -297,6 +299,32 @@ function buildArchway(levelWidth) {
     */
 }
 
+function placeHoverboard(x, monkey) {
+    var h = 20;
+    var hoverboard = Crafty.e('2D, DOM, Color, Floor')
+      .attr({x: x, y: H-FH-h-20, z: 8,
+             w: 100, h: h})
+      .color('#FF5677');
+    var normalSpeed = monkey._speed;
+    var hbSpeed = normalSpeed.x*1.5;
+    var hoverboardSpeed = {x: hbSpeed, y: hbSpeed};
+
+    monkey
+      .requires('Keyboard')
+      .bind('KeyDown', function () { 
+        if (this.isDown('UP_ARROW')) {
+            monkey.detach(hoverboard);
+            monkey.speed(normalSpeed);
+        }
+      })
+      .bind("LandedOnGround", function(ground) {
+        if (ground == hoverboard) {
+            monkey.attach(hoverboard);
+            monkey.speed(hoverboardSpeed);
+        }
+      });
+}
+
 // ##################################################
 // # Define levels                                  #
 // ##################################################
@@ -514,6 +542,14 @@ Crafty.defineScene("level4", function() {
     plantTree(giantTree, 2200);
     placeGiraffe(2300);
     
+});
+
+Crafty.defineScene("level5", function() {
+    var levelWidth = 2700;
+    var monkey = setupLevel(levelWidth);
+    plantTree(lemonTree, 500);
+    plantTree(lemonTree, 2000);
+    placeHoverboard(300, monkey);
 });
 
 Crafty.enterScene("start");
