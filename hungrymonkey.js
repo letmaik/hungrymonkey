@@ -318,7 +318,7 @@ function placeHoverboard(x, monkey) {
             var iv = setInterval(function(){ 
                 hoverboard.vx /= 1.5;
                 console.log("dsd");
-                if (hoverboard.vx < 0.01) {
+                if (Math.abs(hoverboard.vx) < 0.01) {
                     clearInterval(iv);
                 }                
             }, 300);
@@ -563,6 +563,47 @@ Crafty.defineScene("level5", function() {
     plantTree(lemonTree, 500);
     plantTree(lemonTree, 2000);
     placeHoverboard(300, monkey);
+});
+
+Crafty.defineScene("level6", function() {
+    var levelWidth = 4000;
+    var monkey = setupLevel(levelWidth);
+    
+    var giantTree = {
+        type: 'bananatree',
+        height: 600,
+        slots: [       
+            {   index: 1,
+                bananaType: 'bananas5'
+            },
+            {   index: 3,
+                bananaType: 'bananas5'
+            },
+        ]
+    };
+    var decoTree = {
+        type: 'bananatree',
+        height: 300,
+    };
+    var decoTree2 = {
+        type: 'bananatree',
+        height: 400,
+    };
+    
+    plantTree(appleTree, 200);
+    plantTree(appleTree, 500);
+    placeHoverboard(300, monkey);
+    plantTree(decoTree, 800);
+    plantTree(decoTree2, 1000);
+    plantTree(decoTree, 1500);
+    plantTree(decoTree, 1900);
+    plantTree(giantTree, 2200);
+    plantTree(appleTree, 2600);
+    plantTree(lemonTree, 2900);
+    plantTree(lemonTree, 3100);
+    plantTree(lemonTree, 3300);
+    plantTree(lemonTree, 3500);  
+    placeGiraffe(2300);
 });
 
 Crafty.enterScene("start");
