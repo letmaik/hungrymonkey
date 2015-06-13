@@ -61,7 +61,7 @@ $('#restart-level').click(function(e) {
 });
 $('#start-game').click(function(e) {
     e.preventDefault();
-    startLevel(5);
+    startLevel(1);
 });
 $('#next-level').click(function(e) {
     e.preventDefault();
