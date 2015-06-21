@@ -98,7 +98,8 @@ var sprites = {
     giraffe: {w: 335, h: 421, file: "giraffe.png"},
     archway: {w: 47, h: 110, file: "archway.svg", map: {sprite_archway_left:[0,0],
                                                         sprite_archway_right:[1,0]}},
-    torch: {w: 47, h: 100, file: "torch.png"}
+    torch: {w: 47, h: 100, file: "torch.png"},
+	hoverboard: {w: 200, h: 50, file: "hoverboard_horizontal.png"}
 };
 
 Object.keys(sprites).forEach(function(spriteKey) {
@@ -308,10 +309,16 @@ function buildArchway(levelWidth) {
 
 function placeHoverboard(x, monkey) {
     var h = 20;
-    var hoverboard = Crafty.e('2D, DOM, Color, Floor, Motion')
+    
+	var hoverboard_sprite = Crafty.e('2D, DOM, sprite_hoverboard')
       .attr({x: x, y: H-FH-h-20, z: 8,
-             w: 100, h: h})
-      .color('#FF5677');
+             w: 100, h: h});
+	
+	var hoverboard = Crafty.e('2D, Floor, Motion')
+      .attr({x: x, y: H-FH-h-5, z: 8,
+             w: 100, h: h});
+	hoverboard.attach(hoverboard_sprite);
+
     var normalSpeed = monkey._speed;
     var hbSpeed = normalSpeed.x*1.5;
     var hoverboardSpeed = {x: hbSpeed, y: hbSpeed};
@@ -324,7 +331,6 @@ function placeHoverboard(x, monkey) {
             // TODO maybe use enterframe
             var iv = setInterval(function(){ 
                 hoverboard.vx /= 1.5;
-                console.log("dsd");
                 if (Math.abs(hoverboard.vx) < 0.01) {
                     clearInterval(iv);
                 }                
