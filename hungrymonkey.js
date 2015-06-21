@@ -49,10 +49,17 @@ function setupLevel(levelWidth) {
     return monkey;
 }
 
+$(document).bind("fullscreenchange", function() {
+    var s = $(document).fullScreen() ? 1.3 : 1;
+	$('#game').css('transform', 'scale(' + s + ',' + s + ')');
+});
+
 Crafty.bind('KeyDown', function (e) {
     if (e.key == Crafty.keys.ENTER) {
         $('.infobox:visible a').trigger('click');
-    }
+    } else if (e.key == Crafty.keys.F) {
+		$(document).fullScreen(!$(document).fullScreen());
+	}
 });
 
 $('#restart-level').click(function(e) {
