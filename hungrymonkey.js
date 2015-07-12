@@ -168,9 +168,9 @@ function freezeGame(healthUpdater, monkey) {
 function spawnMonkey(levelWidth) {
     var monkey = Crafty.e('2D, DOM, Twoway, Gravity, Collision, sprite_monkey')
       .attr({x: 0, y: H-FH-100, w: 50, h: 50, z: 9})
-      .twoway(5,19)
+      .twoway(250,950)
       .gravity('Floor')
-      .gravityConst(1)
+      .gravityConst(2500)
       .collision()
       .onHit("wall_left", function() {
         this.x=0;
