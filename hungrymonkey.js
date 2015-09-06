@@ -4,6 +4,7 @@ var FH=40;
 
 Crafty.init(W,H, document.getElementById('game'));
 Crafty.pixelart(false);
+Crafty.multitouch(true);
 
 function setupLevelStatic(levelWidth) {
     var FW=levelWidth;
@@ -45,8 +46,59 @@ function setupLevel(levelWidth) {
         $('#defeat-box').show();
         freezeGame(healthUpdater, monkey);
     });
+	
+	 handleTouch(monkey);
     
     return monkey;
+}
+
+// fixed position entity
+// https://groups.google.com/d/msg/craftyjs/MSfTCjFUpAE/P2Gisxg494QJ
+Crafty.c("TouchArea", {
+    init: function(){ 
+		this.requires("2D");
+		this.bind("EnterFrame", this.adjustPosition)
+	},
+    fixedPosition: function(x, y){
+         this.fixedX = x; this.fixedY=y;
+		 return this;
+    },
+    adjustPosition: function(){
+          this.x = this.fixedX - Crafty.viewport.x;
+          this.y = this.fixedY - Crafty.viewport.y;
+    }
+}
+)
+
+function handleTouch(monkey) {
+	// create touch areas for moving the monkey
+	// bottom left, right, center (jumping)
+	// the touch entities must stay and not move within the world
+	
+	// map touch events to keyboard events
+	// see https://groups.google.com/forum/#!topic/craftyjs/dAVMOJyAcv8
+	
+	var touchH = 150
+	var keymap = [
+		[Crafty.keys.LEFT_ARROW, {x: 0, y: H-touchH, w: 150, h: touchH, z:200}],
+		[Crafty.keys.RIGHT_ARROW, {x: Math.round(W/2)-100, y: H-touchH, w: 200, h: touchH, z:200}],
+		[Crafty.keys.UP_ARROW, {x: W-150, y: H-touchH, w: 150, h: touchH, z:200}]
+	]
+	
+	for (var i=0; i < keymap.length; i++) {
+		var key = keymap[i][0]
+		var toucharea = keymap[i][1]
+		Crafty.e('TouchArea')
+		  .attr(toucharea)
+		  .fixedPosition(toucharea.x, toucharea.y)
+		  .bind('TouchStart',function() { 
+			  monkey.trigger("KeyDown", {key: key})
+		  })
+		  .bind('TouchEnd', function() {
+			  monkey.trigger("KeyUp", {key: key})
+		  });
+	}
+
 }
 
 $(document).bind("fullscreenchange", function() {
