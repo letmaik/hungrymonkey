@@ -113,15 +113,15 @@ Crafty.bind('KeyDown', function (e) {
 	}
 });
 
-$('#restart-level').click(function(e) {
+$('#restart-level').on('click touchstart', function(e) {
     e.preventDefault();
     startLevel(currentLevel);
 });
-$('#start-game').click(function(e) {
+$('#start-game').on('click touchstart', function(e) {
     e.preventDefault();
     startLevel(1);
 });
-$('#next-level').click(function(e) {
+$('#next-level').on('click touchstart', function(e) {
     e.preventDefault();
     startLevel(currentLevel+1);
 });
