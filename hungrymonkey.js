@@ -56,7 +56,7 @@ function setupLevel(levelWidth) {
 // https://groups.google.com/d/msg/craftyjs/MSfTCjFUpAE/P2Gisxg494QJ
 Crafty.c("TouchArea", {
     init: function(){ 
-		this.requires("2D");
+		this.requires("Touch, 2D");
 		this.bind("EnterFrame", this.adjustPosition)
 	},
     fixedPosition: function(x, y){
@@ -80,22 +80,21 @@ function handleTouch(monkey) {
 	
 	var touchH = 150
 	var keymap = [
-		[Crafty.keys.LEFT_ARROW, {x: 0, y: H-touchH, w: 150, h: touchH, z:200}],
-		[Crafty.keys.RIGHT_ARROW, {x: Math.round(W/2)-100, y: H-touchH, w: 200, h: touchH, z:200}],
-		[Crafty.keys.UP_ARROW, {x: W-150, y: H-touchH, w: 150, h: touchH, z:200}]
+		{x: 0, y: H-touchH, w: 150, h: touchH, z:200, key: Crafty.keys.LEFT_ARROW},
+		{x: Math.round(W/2)-100, y: H-touchH, w: 200, h: touchH, z:200, key: Crafty.keys.UP_ARROW},
+		{x: W-150, y: H-touchH, w: 150, h: touchH, z:200, key: Crafty.keys.RIGHT_ARROW}
 	]
 	
 	for (var i=0; i < keymap.length; i++) {
-		var key = keymap[i][0]
-		var toucharea = keymap[i][1]
+		var toucharea = keymap[i]
 		Crafty.e('TouchArea')
 		  .attr(toucharea)
 		  .fixedPosition(toucharea.x, toucharea.y)
-		  .bind('TouchStart',function() { 
-			  monkey.trigger("KeyDown", {key: key})
+		  .bind('TouchStart',function() {
+			  monkey.trigger("KeyDown", {key: this.key})
 		  })
 		  .bind('TouchEnd', function() {
-			  monkey.trigger("KeyUp", {key: key})
+			  monkey.trigger("KeyUp", {key: this.key})
 		  });
 	}
 
