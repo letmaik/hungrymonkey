@@ -78,11 +78,16 @@ function handleTouch(monkey) {
 	// map touch events to keyboard events
 	// see https://groups.google.com/forum/#!topic/craftyjs/dAVMOJyAcv8
 	
-	var touchH = 150
+	var touchH = 0.35 * H
+    // jump area: middle 50% width
+    // left/right: each 25%
+    var midW = Math.round(0.5 * W)
+    var lrW = Math.round(0.25 * W)
+    
 	var keymap = [
-		{x: 0, y: H-touchH, w: 150, h: touchH, z:200, key: Crafty.keys.LEFT_ARROW},
-		{x: Math.round(W/2)-100, y: H-touchH, w: 200, h: touchH, z:200, key: Crafty.keys.UP_ARROW},
-		{x: W-150, y: H-touchH, w: 150, h: touchH, z:200, key: Crafty.keys.RIGHT_ARROW}
+		{x: 0, y: H-touchH, w: lrW, h: touchH, z:200, key: Crafty.keys.LEFT_ARROW},
+		{x: lrW, y: H-touchH, w: midW, h: touchH, z:200, key: Crafty.keys.UP_ARROW},
+		{x: W-lrW, y: H-touchH, w: lrW, h: touchH, z:200, key: Crafty.keys.RIGHT_ARROW}
 	]
 	
 	for (var i=0; i < keymap.length; i++) {
