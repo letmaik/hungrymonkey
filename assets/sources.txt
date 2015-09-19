@@ -9,3 +9,4 @@ giraffe.png			http://www.clipartpanda.com/clipart_images/animals-clip-art-page-1
 archway.svg			http://www.clipshrine.com/archway-arch-road-11417-medium.html
 torch.png			http://clubpenguin.wikia.com/wiki/File:Wall_Torch.PNG
 hoverboard.png	http://myfirstworld.com/profile.asp?user=279967
+render_sun.png	http://www.solarsystemscope.com/nexus/content/planet_images/render_sun.png

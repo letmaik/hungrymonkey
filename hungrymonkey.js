@@ -29,6 +29,8 @@ function setupLevelStatic(levelWidth) {
       .image('assets/grass.png', 'repeat-x');
       
     buildArchway(levelWidth);
+    
+    placeSun();
 }
 
 function setupLevel(levelWidth) {
@@ -54,9 +56,9 @@ function setupLevel(levelWidth) {
 
 // fixed position entity
 // https://groups.google.com/d/msg/craftyjs/MSfTCjFUpAE/P2Gisxg494QJ
-Crafty.c("TouchArea", {
+Crafty.c("Fixed", {
     init: function(){ 
-		this.requires("Touch, 2D");
+		this.requires("2D");
 		this.bind("EnterFrame", this.adjustPosition)
 	},
     fixedPosition: function(x, y){
@@ -92,7 +94,7 @@ function handleTouch(monkey) {
 	
 	for (var i=0; i < keymap.length; i++) {
 		var toucharea = keymap[i]
-		Crafty.e('TouchArea')
+		Crafty.e('Fixed, Touch')
 		  .attr(toucharea)
 		  .fixedPosition(toucharea.x, toucharea.y)
 		  .bind('TouchStart',function() {
@@ -155,7 +157,8 @@ var sprites = {
     archway: {w: 47, h: 110, file: "archway.svg", map: {sprite_archway_left:[0,0],
                                                         sprite_archway_right:[1,0]}},
     torch: {w: 47, h: 100, file: "torch.png"},
-	hoverboard: {w: 200, h: 50, file: "hoverboard_horizontal.png"}
+	hoverboard: {w: 200, h: 50, file: "hoverboard_horizontal.png"},
+	sun: {w: 300, h: 300, file: "render_sun.png"}
 };
 
 Object.keys(sprites).forEach(function(spriteKey) {
@@ -289,6 +292,15 @@ function getEntitySize(s, ch) {
     var w = scale*s.w;
     var h = ch;
     return {w:w,h:h,scale:scale};
+}
+
+function placeSun() {
+    var s = 160;
+    var x = W-s/2;
+    var y = -s/2;
+	Crafty.e('2D, DOM, Fixed, sprite_sun')
+	  .attr({x: x, y: y, w: s, h: s})
+	  .fixedPosition(x, y);
 }
 
 function plantTree(treeSpec, x) {
