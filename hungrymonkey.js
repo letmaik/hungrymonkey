@@ -1,6 +1,7 @@
 var W=800;
 var H=500;
 var FH=40;
+var LAST_LEVEL=6;
 
 Crafty.init(W,H, document.getElementById('game'));
 Crafty.pixelart(false);
@@ -41,7 +42,11 @@ function setupLevel(levelWidth) {
     var monkey = spawnMonkey(levelWidth);
     var healthUpdater = startHealthUpdater();
     Crafty.one('levelWon', function() {
-        $('#victory-box').show();
+        if(currentLevel==LAST_LEVEL){
+            $('#final-victory-box').show();
+        }else{
+            $('#victory-box').show();
+        }
         freezeGame(healthUpdater, monkey);
     });  
     Crafty.one('levelLost', function() {
