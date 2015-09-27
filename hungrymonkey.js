@@ -10,7 +10,6 @@ if (window.matchMedia('(max-height: ' + (defaultH+100) + 'px)').matches) {
     // http://stackoverflow.com/a/8876069/60982
     defaultH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     defaultW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    console.log("foo");
 }
 var W=defaultW;
 var H=defaultH;
