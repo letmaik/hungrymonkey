@@ -1,8 +1,10 @@
 html {
     height: 100%;
+    overflow: hidden;
 }
 
 body {
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -42,6 +44,12 @@ body {
 #start-box {
     width: 200px;
     height: 70px;
+}
+
+#fullscreen-box {
+    width: 200px;
+    height: 50px;
+    top: 200px;
 }
 
 #health-bar {

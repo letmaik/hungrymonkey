@@ -1,7 +1,18 @@
-var W=800;
-var H=500;
+var defaultW=800;
+var defaultH=500;
+var W=defaultW;
+var H=defaultH;
 var FH=40;
 var LAST_LEVEL=6;
+
+Crafty.mobile = false; // skip clever logic, use our own
+
+if (window.matchMedia('(max-height: ' + (H+100) + 'px)').matches) {
+    // small viewport, fill completely
+    // http://stackoverflow.com/a/8876069/60982
+    H = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    W = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+}
 
 Crafty.init(W,H, document.getElementById('game'));
 Crafty.pixelart(false);
@@ -112,18 +123,56 @@ function handleTouch(monkey) {
 
 }
 
-$(document).bind("fullscreenchange", function() {
-    var s = $(document).fullScreen() ? 1.3 : 1;
-	$('#game').css('transform', 'scale(' + s + ',' + s + ')');
-});
 
 Crafty.bind('KeyDown', function (e) {
     if (e.key == Crafty.keys.ENTER) {
         $('.infobox:visible a').trigger('click');
     } else if (e.key == Crafty.keys.F) {
-		$(document).fullScreen(!$(document).fullScreen());
+        toggleFullscreen();
 	}
 });
+
+
+
+$(document).bind("fullscreenchange", function() {
+    if (!$(document).fullScreen()) {
+        leaveFullscreen();
+    }
+});
+
+function leaveFullscreen() {
+    $('#game').css('transform', 'scale(1)');
+    H = defaultH;
+    W = defaultW;
+    Crafty.init(W,H, document.getElementById('game'));
+}
+
+function toggleFullscreen() {
+    if ($(document).fullScreen()) {
+        $(document).fullScreen(false);
+        leaveFullscreen();
+    } else {
+        $(document).fullScreen(true);
+        // need to wait a bit until we can read out correct width/height
+        setTimeout(function() {
+            if (window.matchMedia('(max-height: ' + (H+100) + 'px)').matches) {
+                // small viewport, fill completely
+                // http://stackoverflow.com/a/8876069/60982
+                H = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+                W = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+            } else {
+                H = defaultH;
+                W = defaultW;
+                var scale = 1.3
+                if (window.matchMedia('(min-height: ' + H*scale + 'px)').matches) {
+                    $('#game').css('transform', 'scale(' + scale + ')');
+                }
+            }
+            console.log(W,H)
+            Crafty.init(W,H, document.getElementById('game'));
+        }, 500)
+    }
+}
 
 $('#restart-level').on('click touchstart', function(e) {
     e.preventDefault();
@@ -132,6 +181,10 @@ $('#restart-level').on('click touchstart', function(e) {
 $('#start-game').on('click touchstart', function(e) {
     e.preventDefault();
     startLevel(1);
+});
+$('#go-fullscreen').on('click touchstart', function(e) {
+    e.preventDefault();
+    toggleFullscreen();
 });
 $('#next-level').on('click touchstart', function(e) {
     e.preventDefault();
@@ -428,7 +481,7 @@ function placeHoverboard(x, monkey) {
 // # Define levels                                  #
 // ##################################################
 Crafty.defineScene("start", function() {
-    setupLevelStatic(1000);
+    setupLevelStatic(5000);
     Crafty.viewport.x = 10; // not sure why +10
     $('#start-box').show();
 });
