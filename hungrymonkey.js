@@ -1,18 +1,19 @@
 var defaultW=800;
 var defaultH=500;
-var W=defaultW;
-var H=defaultH;
 var FH=40;
 var LAST_LEVEL=6;
 
 Crafty.mobile = false; // skip clever logic, use our own
 
-if (window.matchMedia('(max-height: ' + (H+100) + 'px)').matches) {
+if (window.matchMedia('(max-height: ' + (defaultH+100) + 'px)').matches) {
     // small viewport, fill completely
     // http://stackoverflow.com/a/8876069/60982
-    H = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    W = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    defaultH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    defaultW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    console.log("foo");
 }
+var W=defaultW;
+var H=defaultH;
 
 Crafty.init(W,H, document.getElementById('game'));
 Crafty.pixelart(false);
@@ -146,6 +147,10 @@ function leaveFullscreen() {
     H = defaultH;
     W = defaultW;
     Crafty.init(W,H, document.getElementById('game'));
+    if (currentLevel == 0) {
+        // only reload scene if no level has started yet
+        Crafty.enterScene("start");
+    }
 }
 
 function toggleFullscreen() {
@@ -171,6 +176,11 @@ function toggleFullscreen() {
             }
             console.log(W,H)
             Crafty.init(W,H, document.getElementById('game'));
+            
+            if (currentLevel == 0) {
+                // only reload scene if no level has started yet
+                Crafty.enterScene("start");
+            }
         }, 500)
     }
 }
@@ -181,7 +191,8 @@ $('#restart-level').on('click touchstart', function(e) {
 });
 $('#start-game').on('click touchstart', function(e) {
     e.preventDefault();
-    startLevel(1);
+    currentLevel=1;
+    startLevel(currentLevel);
 });
 $('#go-fullscreen').on('click touchstart', function(e) {
     toggleFullscreen();
@@ -250,7 +261,7 @@ var trees = {
 /* GAME LOGIC */
 var healthTotal = 100;
 var health=healthTotal;
-var currentLevel = 1;
+var currentLevel = 0; // start screen
 function healthDelta(banana) {
     var bananaHealthDeltas = [
         -10, // 1 green (poisonous)
