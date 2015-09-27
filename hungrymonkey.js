@@ -56,12 +56,12 @@ function setupLevel(levelWidth) {
         if(currentLevel==LAST_LEVEL){
             $('#final-victory-box').show();
         }else{
-            $('#victory-box').show();
+            $('#next-level').show();
         }
         freezeGame(healthUpdater, monkey);
     });  
     Crafty.one('levelLost', function() {
-        $('#defeat-box').show();
+        $('#restart-level').show();
         freezeGame(healthUpdater, monkey);
     });
 	
@@ -123,16 +123,17 @@ function handleTouch(monkey) {
 
 }
 
-
 Crafty.bind('KeyDown', function (e) {
     if (e.key == Crafty.keys.ENTER) {
-        $('.infobox:visible a').trigger('click');
+        var btn = $('.mainbtn:visible');
+        if (btn.length == 0) {
+            btn = $('.btn:visible');
+        }
+        btn.trigger('click');
     } else if (e.key == Crafty.keys.F) {
         toggleFullscreen();
 	}
 });
-
-
 
 $(document).bind("fullscreenchange", function() {
     if (!$(document).fullScreen()) {
@@ -183,7 +184,6 @@ $('#start-game').on('click touchstart', function(e) {
     startLevel(1);
 });
 $('#go-fullscreen').on('click touchstart', function(e) {
-    e.preventDefault();
     toggleFullscreen();
 });
 $('#next-level').on('click touchstart', function(e) {

@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
 <head>
 	<title>Hungry Monkey</title>
@@ -10,29 +10,32 @@
 
 <div id="game">
 	<div id="health-bar" class="health-high"></div>
-	<div id="victory-box" class="infobox alert alert-success">
-		Victory is mine!<br />
-		<a id="next-level" href="">Next Level</a>
-	</div>
+    
+    <button id="start-game" type="button" class="mainbtn infobox btn btn-danger">
+        Start Game!<br />
+        <span>(press ENTER)</span>
+    </button>
+
+    <button id="go-fullscreen" type="button" class="infobox btn btn-success">
+        Go Fullscreen!<br />
+        <span class="">(press F)</span>
+    </button>
+    
+    <button id="next-level" type="button" class="infobox btn btn-success">
+        Victory is mine!<br />
+        Next Level
+    </button>
+    
+    <button id="restart-level" type="button" class="mainbtn infobox btn btn-danger">
+        Oh Fiddlesticks!<br />
+        Restart Level
+    </button>
+    
 	<div id="final-victory-box" class="infobox alert alert-success">
 		Happy happy! Joy joy!<br />
 		<img src="assets/victory.png" alt="Victory" />
 	</div>
-	<div id="defeat-box" class="infobox alert alert-danger">
-		Oh Fiddlesticks!<br />
-		<a id="restart-level" href="">Restart Level</a>
-	</div>
-    <a id="start-game" href="">
-        <div id="start-box" class="infobox alert alert-info">
-            Start Game!<br />
-            (press Enter)
-        </div>
-    </a>
-    <a id="go-fullscreen" href="">
-        <div id="fullscreen-box" class="infobox alert alert-danger">
-            Go Fullscreen!
-        </div>
-    </a>
+    
 </div>
 
 <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
