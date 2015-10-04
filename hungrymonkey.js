@@ -190,7 +190,7 @@ $('#restart-level').on('click touchstart', function(e) {
 });
 $('#start-game').on('click touchstart', function(e) {
     e.preventDefault();
-    currentLevel=1;
+    currentLevel=4;
     startLevel(currentLevel);
 });
 $('#go-fullscreen').on('click touchstart', function(e) {
@@ -652,7 +652,7 @@ Crafty.defineScene("level3", function() {
 });
 
 Crafty.defineScene("level4", function() {
-    var levelWidth = 3000;
+    var levelWidth = 2800;
     setupLevel(levelWidth);
     
     var giantTree = {
