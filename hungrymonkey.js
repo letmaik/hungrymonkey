@@ -190,7 +190,11 @@ $('#restart-level').on('click touchstart', function(e) {
 });
 $('#start-game').on('click touchstart', function(e) {
     e.preventDefault();
-    currentLevel=6;
+    if (window.location.hash) {
+        currentLevel=window.location.hash.substr(1);
+    } else {
+        currentLevel=1;
+    }
     startLevel(currentLevel);
 });
 $('#go-fullscreen').on('click touchstart', function(e) {
