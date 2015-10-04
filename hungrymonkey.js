@@ -190,7 +190,7 @@ $('#restart-level').on('click touchstart', function(e) {
 });
 $('#start-game').on('click touchstart', function(e) {
     e.preventDefault();
-    currentLevel=4;
+    currentLevel=6;
     startLevel(currentLevel);
 });
 $('#go-fullscreen').on('click touchstart', function(e) {
@@ -460,7 +460,7 @@ function placeHoverboard(x, monkey) {
     var hoverboardSpeed = {x: hbSpeed, y: hbSpeed};
 
     function jumpHandler() { 
-        if (this.isDown('UP_ARROW')) {
+        if (this.isDown(Crafty.keys.UP_ARROW)) {
             monkey.detach(hoverboard);
             monkey.speed(normalSpeed);
             hoverboard.vx = monkey.vx;
