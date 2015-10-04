@@ -463,7 +463,8 @@ function placeHoverboard(x, monkey) {
     var hbSpeed = normalSpeed.x*1.5;
     var hoverboardSpeed = {x: hbSpeed, y: hbSpeed};
 
-    function jumpHandler() { 
+    function jumpHandler() {
+        console.log(Crafty.keydown);
         if (this.isDown(Crafty.keys.UP_ARROW)) {
             monkey.detach(hoverboard);
             monkey.speed(normalSpeed);
