@@ -114,10 +114,15 @@ function handleTouch(monkey) {
 		  .attr(toucharea)
 		  .fixedPosition(toucharea.x, toucharea.y)
 		  .bind('TouchStart',function() {
-			  monkey.trigger("KeyDown", {key: this.key})
+              var e = new KeyboardEvent('keydown', {keyCode: this.key});
+              document.dispatchEvent(e);
+              
+              // the following doesn't trigger a native browser event and only works half-way
+			  //monkey.trigger("KeyDown", {key: this.key})
 		  })
 		  .bind('TouchEnd', function() {
-			  monkey.trigger("KeyUp", {key: this.key})
+              var e = new KeyboardEvent('keyup', {keyCode: this.key});
+              document.dispatchEvent(e);
 		  });
 	}
 
