@@ -114,15 +114,12 @@ function handleTouch(monkey) {
 		  .attr(toucharea)
 		  .fixedPosition(toucharea.x, toucharea.y)
 		  .bind('TouchStart',function() {
-              var e = new KeyboardEvent('keydown', {keyCode: this.key, which: this.key});
-              document.dispatchEvent(e);
-              
-              // the following doesn't trigger a native browser event and only works half-way
-			  //monkey.trigger("KeyDown", {key: this.key})
+			  Crafty.keydown[this.key] = true
+              monkey.trigger("KeyDown", {key: this.key})
 		  })
 		  .bind('TouchEnd', function() {
-              var e = new KeyboardEvent('keyup', {keyCode: this.key, which: this.key});
-              document.dispatchEvent(e);
+              delete Crafty.keydown[this.key]
+              monkey.trigger("KeyUp", {key: this.key})
 		  });
 	}
 
@@ -469,7 +466,6 @@ function placeHoverboard(x, monkey) {
     var hoverboardSpeed = {x: hbSpeed, y: hbSpeed};
 
     function jumpHandler() {
-        console.log(Crafty.keydown);
         if (this.isDown(Crafty.keys.UP_ARROW)) {
             monkey.detach(hoverboard);
             monkey.speed(normalSpeed);
