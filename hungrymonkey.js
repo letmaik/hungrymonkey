@@ -193,7 +193,7 @@ $('#restart-level').on('click touchstart', function(e) {
 $('#start-game').on('click touchstart', function(e) {
     e.preventDefault();
     if (window.location.hash) {
-        currentLevel=window.location.hash.substr(1);
+        currentLevel=parseInt(window.location.hash.substr(1), 10);
     } else {
         currentLevel=1;
     }
@@ -451,14 +451,14 @@ function buildArchway(levelWidth) {
 
 function placeHoverboard(x, monkey) {
     var h = 20;
-    
+    var w = 100
 	var hoverboard_sprite = Crafty.e('2D, DOM, sprite_hoverboard')
       .attr({x: x, y: H-FH-h-20, z: 8,
-             w: 100, h: h});
+             w: w, h: h});
 	
 	var hoverboard = Crafty.e('2D, Floor, Motion')
-      .attr({x: x, y: H-FH-h-5, z: 8,
-             w: 100, h: h});
+      .attr({x: x+20, y: H-FH-h-5, z: 8,
+             w: w-30, h: h});
 	hoverboard.attach(hoverboard_sprite);
 
     var normalSpeed = monkey._speed;
