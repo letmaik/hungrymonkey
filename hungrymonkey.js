@@ -449,6 +449,29 @@ function buildArchway(levelWidth) {
     */
 }
 
+Crafty.c("TweenSequenceLoop", {
+    init: function() {
+		this.requires("Tween")
+    },
+    tweenSeqLoop: function(seq) {
+        this.seq = seq
+        this.i = 0
+        this.fn = function () {
+            this.i++;
+            if (this.i === seq.length) this.i = 0;
+            this.tween.apply(this, seq[this.i])
+        }
+        this.bind('TweenEnd', this.fn)
+        this.tween.apply(this, seq[this.i])
+        return this
+    },
+    cancelTweenLoop: function() {
+        this.cancelTween(this.seq[this.i][0])
+        this.unbind('TweenEnd', this.fn)
+        return this
+    }
+})
+
 function placeHoverboard(x, monkey) {
     var h = 20;
     var w = 100
@@ -456,10 +479,16 @@ function placeHoverboard(x, monkey) {
       .attr({x: x, y: H-FH-h-20, z: 8,
              w: w, h: h});
 	
-	var hoverboard = Crafty.e('2D, Floor, Motion')
-      .attr({x: x+20, y: H-FH-h-5, z: 8,
-             w: w-30, h: h});
-	hoverboard.attach(hoverboard_sprite);
+    var y = H-FH-h-5
+    var tweenSeq = [
+        [{y: y-3}, 300, 'smootherStep'],
+        [{y: y+3}, 300, 'smootherStep']
+      ]
+	var hoverboard = Crafty.e('2D, Floor, Motion, Tween, TweenSequenceLoop')
+      .attr({x: x+20, y: y, z: 8,
+             w: w-30, h: h})
+      .attach(hoverboard_sprite)
+      .tweenSeqLoop(JSON.parse(JSON.stringify(tweenSeq))) // deep copy because it gets modified
 
     var normalSpeed = monkey._speed;
     var hbSpeed = normalSpeed.x*1.5;
@@ -469,8 +498,10 @@ function placeHoverboard(x, monkey) {
         if (this.isDown(Crafty.keys.UP_ARROW) || this.isDown(Crafty.keys.W)) {
             monkey.detach(hoverboard);
             monkey.speed(normalSpeed);
+            hoverboard.tweenSeqLoop(JSON.parse(JSON.stringify(tweenSeq)))
             hoverboard.vx = monkey.vx;
-            // TODO maybe use enterframe
+            // cannot use tween() here as rejumping on board won't work
+            //hoverboard.tween({vx: 0}, 1500)
             var iv = setInterval(function(){ 
                 hoverboard.vx /= 1.5;
                 if (Math.abs(hoverboard.vx) < 0.01) {
@@ -482,9 +513,10 @@ function placeHoverboard(x, monkey) {
     };
 
     monkey
-      .requires('Keyboard')
+      .requires('Keyboard, TweenSequenceLoop')
       .bind("LandedOnGround", function(ground) {
         if (ground == hoverboard) {
+            hoverboard.cancelTweenLoop();
             hoverboard.vx = 0;
             monkey.attach(hoverboard);
             monkey.speed(hoverboardSpeed);
