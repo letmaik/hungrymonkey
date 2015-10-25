@@ -228,11 +228,13 @@ var sprites = {
     appletree: {w: 415, h: 550, file: "appletree.png"},
     lemontree: {w: 612, h: 800, file: "lemontree.png"},
     giraffe: {w: 335, h: 421, file: "giraffe.png"},
+    rhino: {w: 150, h: 116, file: "rhino.gif"},
+    tiger: {w: 192, h: 192, file: "tiger.gif"},
     archway: {w: 47, h: 110, file: "archway.svg", map: {sprite_archway_left:[0,0],
                                                         sprite_archway_right:[1,0]}},
     torch: {w: 47, h: 100, file: "torch.png"},
-	hoverboard: {w: 200, h: 50, file: "hoverboard_horizontal.png"},
-	sun: {w: 300, h: 300, file: "render_sun.png"}
+    hoverboard: {w: 200, h: 50, file: "hoverboard_horizontal.png"},
+    sun: {w: 300, h: 300, file: "render_sun.png"}
 };
 
 Object.keys(sprites).forEach(function(spriteKey) {
@@ -299,7 +301,7 @@ function freezeGame(healthUpdater, monkey) {
    see https://github.com/craftyjs/Crafty/issues/882
 */
 function spawnMonkey(levelWidth) {
-    var monkey = Crafty.e('2D, DOM, Twoway, Gravity, Collision, sprite_monkey')
+    var monkey = Crafty.e('2D, DOM, Twoway, Gravity, Collision, Tween, sprite_monkey')
       .attr({x: 0, y: H-FH-100, w: 50, h: 50, z: 9})
       .twoway(250,950)
       .gravity('Floor')
@@ -315,6 +317,23 @@ function spawnMonkey(levelWidth) {
         health += healthDelta(banana);
         banana.destroy();
         bananaCount--;
+      }).onHit("rhino_wall", function(hits) {
+        var rhino = hits[0].obj
+        if (!this.tweenRunning) {
+          this.disableControl()
+          this.bounceTweenRunning = true
+          this.tween({x: rhino.x-100, y: this.y - 70}, 200, 'linear')
+        }
+      }).bind("TweenEnd", function () {
+          if (this.bounceTweenRunning) {
+            this.bounceTweenRunning = false
+            this.vy = -100
+            this.vx = -500
+            this.tween({vx: 0, vy: 0}, 400, 'linear')
+            setTimeout(function(self) {
+              self.enableControl()
+            }, 1000, this)
+          }
       }).bind("CheckLanding", function(ground) {
         // disallow landing if monkey's feet are not above platform
         // this prevents snapping to platforms that would not have been reached otherwise
@@ -412,6 +431,19 @@ function placeGiraffe(x) {
       .attr({x: x, y: H-FH-size.h*.425, w: size.h*.25, h: 20});
     Crafty.e('Floor, 2D')
       .attr({x: x-size.h*.21, y: H-FH-size.h*0.89, w: size.h*0.15, h: 20});
+    return giraffe;
+}
+
+function placeRhino(x) {
+    var s = sprites.rhino
+    var size = getEntitySize(s, 140);
+    var rhino = Crafty.e('2D, DOM, rhino, sprite_rhino')
+      .attr({x: x-size.w/2, y: H-size.h-FH+size.h*.1, z: 7, 
+             w: size.w, h: size.h});
+    Crafty.e('Floor, 2D')
+      .attr({x: x, y: H-FH-size.h*.55, w: size.h*.4, h: 20});
+    Crafty.e("2D, rhino_wall")
+      .attr({x: rhino.x+10, y: rhino.y+20, w: 60, h: size.h-30})
     return giraffe;
 }
 
@@ -791,6 +823,13 @@ Crafty.defineScene("level6", function() {
     plantTree(lemonTree, 3300);
     plantTree(lemonTree, 3500);  
     placeGiraffe(2300);
+});
+
+Crafty.defineScene("level7", function() {
+    var levelWidth = 1000;
+    var monkey = setupLevel(levelWidth);
+    placeRhino(500);
+    
 });
 
 Crafty.enterScene("start");
