@@ -388,9 +388,9 @@ function getEntitySize(s, ch) {
 }
 
 function placeSun() {
-    var s = 160;
-    var x = W-s/2;
-    var y = -s/2;
+  var s = 160;
+  var x = W-s/2;
+  var y = -s/2;
 	Crafty.e('2D, DOM, Fixed, sprite_sun')
 	  .attr({x: x, y: y, w: s, h: s})
 	  .fixedPosition(x, y);
