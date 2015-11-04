@@ -65,7 +65,7 @@ function setupLevel(levelWidth) {
         freezeGame(healthUpdater, monkey);
     });
 	
-	 handleTouch(monkey);
+	  handleTouch(monkey);
     
     return monkey;
 }
@@ -381,10 +381,10 @@ function newBanana(x, y, spriteKey) {
 }
 
 function getEntitySize(s, ch) {
-    var scale = ch/s.h;
-    var w = scale*s.w;
-    var h = ch;
-    return {w:w,h:h,scale:scale};
+  var scale = ch/s.h;
+  var w = scale*s.w;
+  var h = ch;
+  return {w:w,h:h,scale:scale};
 }
 
 function placeSun() {
