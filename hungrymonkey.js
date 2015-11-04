@@ -501,7 +501,17 @@ Crafty.c("TweenSequenceLoop", {
         this.cancelTween(this.seq[this.i][0])
         this.unbind('TweenEnd', this.fn)
         return this
+    },
+	// override built-in _endTween
+	// see https://github.com/craftyjs/Crafty/issues/966#issuecomment-153857373
+	_endTween: function(properties){
+    for (var propname in properties){
+      delete this.tweenGroup[propname];
     }
+    if (Object.keys(properties).length){
+      this.trigger("TweenEnd", properties);
+    }
+  }
 })
 
 function placeHoverboard(x, monkey) {
