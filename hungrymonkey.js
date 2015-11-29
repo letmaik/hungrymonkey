@@ -228,7 +228,7 @@ var sprites = {
     appletree: {w: 415, h: 550, file: "appletree.png"},
     lemontree: {w: 612, h: 800, file: "lemontree.png"},
     bush: {w: 364, h: 148, file: "bush.png"},
-    earthworm: {w: 50, h: 47, file: "earthworm_small.png"},
+    earthworm: {w: 50, h: 47, file: "earthworm.png"},
     giraffe: {w: 335, h: 421, file: "giraffe.png"},
     rhino: {w: 150, h: 116, file: "rhino.gif"},
     tiger: {w: 192, h: 192, file: "tiger.gif"},
