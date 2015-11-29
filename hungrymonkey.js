@@ -659,6 +659,22 @@ Crafty.defineScene("level2", function() {
 });
 
 Crafty.defineScene("level3", function() {
+    var levelWidth = 1200;
+    var monkey = setupLevel(levelWidth);
+    placeRhino(500);
+    
+    var bush = {
+        type: 'bush',
+        height: 70,
+    };
+    plantTree(bush, 400);
+    plantTree(bush, 800);
+    plantTree(bush, 900);
+    placeEarthworm(800);
+    placeEarthworm(840);
+});
+
+Crafty.defineScene("level4", function() {
     var levelWidth = 3000;
     setupLevel(levelWidth);
     
@@ -735,7 +751,7 @@ Crafty.defineScene("level3", function() {
     plantTree(appleTree, 2500);
 });
 
-Crafty.defineScene("level4", function() {
+Crafty.defineScene("level5", function() {
     var levelWidth = 2800;
     setupLevel(levelWidth);
     
@@ -790,7 +806,7 @@ Crafty.defineScene("level4", function() {
     
 });
 
-Crafty.defineScene("level5", function() {
+Crafty.defineScene("level6", function() {
     var levelWidth = 2700;
     var monkey = setupLevel(levelWidth);
     plantTree(lemonTree, 500);
@@ -798,7 +814,7 @@ Crafty.defineScene("level5", function() {
     placeHoverboard(300, monkey);
 });
 
-Crafty.defineScene("level6", function() {
+Crafty.defineScene("level7", function() {
     var levelWidth = 4000;
     var monkey = setupLevel(levelWidth);
     
@@ -837,22 +853,6 @@ Crafty.defineScene("level6", function() {
     plantTree(lemonTree, 3300);
     plantTree(lemonTree, 3500);  
     placeGiraffe(2300);
-});
-
-Crafty.defineScene("level7", function() {
-    var levelWidth = 1200;
-    var monkey = setupLevel(levelWidth);
-    placeRhino(500);
-    
-    var bush = {
-        type: 'bush',
-        height: 70,
-    };
-    plantTree(bush, 400);
-    plantTree(bush, 800);
-    plantTree(bush, 900);
-    placeEarthworm(800);
-    placeEarthworm(840);
 });
 
 Crafty.enterScene("start");
