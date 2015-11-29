@@ -1,7 +1,7 @@
 var defaultW=800;
 var defaultH=500;
 var FH=40;
-var LAST_LEVEL=6;
+var LAST_LEVEL=7;
 
 Crafty.mobile = false; // skip clever logic, use our own
 
@@ -227,6 +227,7 @@ var sprites = {
     bananatree: {w: 600, h: 529, file: "bananatree2.png"},
     appletree: {w: 415, h: 550, file: "appletree.png"},
     lemontree: {w: 612, h: 800, file: "lemontree.png"},
+    bush: {w: 364, h: 148, file: "bush.png"},
     giraffe: {w: 335, h: 421, file: "giraffe.png"},
     rhino: {w: 150, h: 116, file: "rhino.gif"},
     tiger: {w: 192, h: 192, file: "tiger.gif"},
@@ -319,21 +320,14 @@ function spawnMonkey(levelWidth) {
         bananaCount--;
       }).onHit("rhino_wall", function(hits) {
         var rhino = hits[0].obj
-        if (!this.tweenRunning) {
-          this.disableControl()
-          this.bounceTweenRunning = true
-          this.tween({x: rhino.x-100, y: this.y - 70}, 200, 'linear')
-        }
-      }).bind("TweenEnd", function () {
-          if (this.bounceTweenRunning) {
-            this.bounceTweenRunning = false
-            this.vy = -100
-            this.vx = -500
-            this.tween({vx: 0, vy: 0}, 400, 'linear')
-            setTimeout(function(self) {
-              self.enableControl()
-            }, 1000, this)
-          }
+        this.disableControl()
+        var groundDistance = H-FH - this.y - this.h
+        var targetGroundDistance = groundDistance * 2.5
+        var targetY = H-FH - this.h - targetGroundDistance
+        this.tween({x: rhino.x-150, y: targetY, vx:0, vy:0}, 250, 'linear')
+        setTimeout(function(self) {
+          self.enableControl()
+        }, 1200, this)
       }).bind("CheckLanding", function(ground) {
         // disallow landing if monkey's feet are not above platform
         // this prevents snapping to platforms that would not have been reached otherwise
@@ -444,7 +438,7 @@ function placeRhino(x) {
       .attr({x: x, y: H-FH-size.h*.55, w: size.h*.4, h: 20});
     Crafty.e("2D, rhino_wall")
       .attr({x: rhino.x+10, y: rhino.y+20, w: 60, h: size.h-30})
-    return giraffe;
+    return rhino;
 }
 
 function buildArchway(levelWidth) {
@@ -836,10 +830,17 @@ Crafty.defineScene("level6", function() {
 });
 
 Crafty.defineScene("level7", function() {
-    var levelWidth = 1000;
+    var levelWidth = 1200;
     var monkey = setupLevel(levelWidth);
     placeRhino(500);
     
+    var bush = {
+        type: 'bush',
+        height: 70,
+    };
+    plantTree(bush, 400);
+    plantTree(bush, 800);
+    plantTree(bush, 900);
 });
 
 Crafty.enterScene("start");

@@ -13,3 +13,4 @@ render_sun.png  http://www.solarsystemscope.com/nexus/content/planet_images/rend
 victory.png     http://totaldrama.wikia.com/wiki/File:TEAM_Victory_Logo.png
 rhino.gif       http://netanimations.net/animated_moving_rhino_animation.gif
 tiger.gif       http://wiki.ggftw.com/latale/Image:Tiger.gif
+bush.png        http://imagegator.net/bush-clip-art-free/2
