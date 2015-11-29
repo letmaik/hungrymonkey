@@ -228,6 +228,7 @@ var sprites = {
     appletree: {w: 415, h: 550, file: "appletree.png"},
     lemontree: {w: 612, h: 800, file: "lemontree.png"},
     bush: {w: 364, h: 148, file: "bush.png"},
+    earthworm: {w: 50, h: 47, file: "earthworm_small.png"},
     giraffe: {w: 335, h: 421, file: "giraffe.png"},
     rhino: {w: 150, h: 116, file: "rhino.gif"},
     tiger: {w: 192, h: 192, file: "tiger.gif"},
@@ -426,6 +427,15 @@ function placeGiraffe(x) {
     Crafty.e('Floor, 2D')
       .attr({x: x-size.h*.21, y: H-FH-size.h*0.89, w: size.h*0.15, h: 20});
     return giraffe;
+}
+
+function placeEarthworm(x) {
+    var s = sprites["earthworm"];
+    var size = getEntitySize(s, 20);
+    var worm = Crafty.e('2D, DOM, earthworm, sprite_earthworm')
+      .attr({x: x-size.w/2, y: H-size.h-5, z: 7, 
+             w: size.w, h: size.h});
+    return worm;
 }
 
 function placeRhino(x) {
@@ -841,6 +851,8 @@ Crafty.defineScene("level7", function() {
     plantTree(bush, 400);
     plantTree(bush, 800);
     plantTree(bush, 900);
+    placeEarthworm(800);
+    placeEarthworm(840);
 });
 
 Crafty.enterScene("start");
