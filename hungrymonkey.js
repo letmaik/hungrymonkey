@@ -53,9 +53,9 @@ function setupLevel(levelWidth) {
     var monkey = spawnMonkey(levelWidth);
     var healthUpdater = startHealthUpdater();
     Crafty.one('levelWon', function() {
-        if(currentLevel==LAST_LEVEL){
+        if (currentLevel==LAST_LEVEL) {
             $('#final-victory-box').show();
-        }else{
+        } else {
             $('#next-level').show();
         }
         freezeGame(healthUpdater, monkey);
@@ -64,8 +64,8 @@ function setupLevel(levelWidth) {
         $('#restart-level').show();
         freezeGame(healthUpdater, monkey);
     });
-	
-	  handleTouch(monkey);
+  
+    handleTouch(monkey);
     
     return monkey;
 }
@@ -74,54 +74,54 @@ function setupLevel(levelWidth) {
 // https://groups.google.com/d/msg/craftyjs/MSfTCjFUpAE/P2Gisxg494QJ
 Crafty.c("Fixed", {
     init: function(){ 
-		this.requires("2D");
-		this.bind("EnterFrame", this.adjustPosition)
-	},
+        this.requires("2D");
+        this.bind("EnterFrame", this.adjustPosition)
+    },
     fixedPosition: function(x, y){
-         this.fixedX = x; this.fixedY=y;
-		 return this;
+        this.fixedX = x; this.fixedY=y;
+        return this;
     },
     adjustPosition: function(){
-          this.x = this.fixedX - Crafty.viewport.x;
-          this.y = this.fixedY - Crafty.viewport.y;
+         this.x = this.fixedX - Crafty.viewport.x;
+         this.y = this.fixedY - Crafty.viewport.y;
     }
 }
 )
 
 function handleTouch(monkey) {
-	// create touch areas for moving the monkey
-	// bottom left, right, center (jumping)
-	// the touch entities must stay and not move within the world
-	
-	// map touch events to keyboard events
-	// see https://groups.google.com/forum/#!topic/craftyjs/dAVMOJyAcv8
-	
-	var touchH = 0.35 * H
-    // jump area: middle 50% width
-    // left/right: each 25%
-    var midW = Math.round(0.5 * W)
-    var lrW = Math.round(0.25 * W)
+  // create touch areas for moving the monkey
+  // bottom left, right, center (jumping)
+  // the touch entities must stay and not move within the world
+  
+  // map touch events to keyboard events
+  // see https://groups.google.com/forum/#!topic/craftyjs/dAVMOJyAcv8
+  
+  var touchH = 0.35 * H
+  // jump area: middle 50% width
+  // left/right: each 25%
+  var midW = Math.round(0.5 * W)
+  var lrW = Math.round(0.25 * W)
     
-	var keymap = [
-		{x: 0, y: H-touchH, w: lrW, h: touchH, z:200, key: Crafty.keys.LEFT_ARROW},
-		{x: lrW, y: H-touchH, w: midW, h: touchH, z:200, key: Crafty.keys.UP_ARROW},
-		{x: W-lrW, y: H-touchH, w: lrW, h: touchH, z:200, key: Crafty.keys.RIGHT_ARROW}
-	]
-	
-	for (var i=0; i < keymap.length; i++) {
-		var toucharea = keymap[i]
-		Crafty.e('Fixed, Touch')
-		  .attr(toucharea)
-		  .fixedPosition(toucharea.x, toucharea.y)
-		  .bind('TouchStart',function() {
-			  Crafty.keydown[this.key] = true
-              monkey.trigger("KeyDown", {key: this.key})
-		  })
-		  .bind('TouchEnd', function() {
-              delete Crafty.keydown[this.key]
-              monkey.trigger("KeyUp", {key: this.key})
-		  });
-	}
+  var keymap = [
+    {x: 0, y: H-touchH, w: lrW, h: touchH, z:200, key: Crafty.keys.LEFT_ARROW},
+    {x: lrW, y: H-touchH, w: midW, h: touchH, z:200, key: Crafty.keys.UP_ARROW},
+    {x: W-lrW, y: H-touchH, w: lrW, h: touchH, z:200, key: Crafty.keys.RIGHT_ARROW}
+  ]
+  
+  for (var i=0; i < keymap.length; i++) {
+    var toucharea = keymap[i]
+    Crafty.e('Fixed, Touch')
+      .attr(toucharea)
+      .fixedPosition(toucharea.x, toucharea.y)
+      .bind('TouchStart',function() {
+         Crafty.keydown[this.key] = true
+         monkey.trigger("KeyDown", {key: this.key})
+      })
+      .bind('TouchEnd', function() {
+         delete Crafty.keydown[this.key]
+         monkey.trigger("KeyUp", {key: this.key})
+      });
+  }
 
 }
 
@@ -134,7 +134,7 @@ Crafty.bind('KeyDown', function (e) {
         btn.trigger('click');
     } else if (e.key == Crafty.keys.F) {
         toggleFullscreen();
-	}
+    }
 });
 
 $(document).bind("fullscreenchange", function() {
@@ -386,9 +386,9 @@ function placeSun() {
   var s = 160;
   var x = W-s/2;
   var y = -s/2;
-	Crafty.e('2D, DOM, Fixed, sprite_sun')
-	  .attr({x: x, y: y, w: s, h: s})
-	  .fixedPosition(x, y);
+  Crafty.e('2D, DOM, Fixed, sprite_sun')
+    .attr({x: x, y: y, w: s, h: s})
+    .fixedPosition(x, y);
 }
 
 function plantTree(treeSpec, x) {
@@ -487,7 +487,7 @@ function buildArchway(levelWidth) {
 
 Crafty.c("TweenSequenceLoop", {
     init: function() {
-		this.requires("Tween")
+    this.requires("Tween")
     },
     tweenSeqLoop: function(seq) {
         this.seq = seq
@@ -506,9 +506,9 @@ Crafty.c("TweenSequenceLoop", {
         this.unbind('TweenEnd', this.fn)
         return this
     },
-	// override built-in _endTween
-	// see https://github.com/craftyjs/Crafty/issues/966#issuecomment-153857373
-	_endTween: function(properties){
+  // override built-in _endTween
+  // see https://github.com/craftyjs/Crafty/issues/966#issuecomment-153857373
+  _endTween: function(properties){
     for (var propname in properties){
       delete this.tweenGroup[propname];
     }
@@ -521,16 +521,16 @@ Crafty.c("TweenSequenceLoop", {
 function placeHoverboard(x, monkey) {
     var h = 20;
     var w = 100
-	var hoverboard_sprite = Crafty.e('2D, DOM, sprite_hoverboard')
+  var hoverboard_sprite = Crafty.e('2D, DOM, sprite_hoverboard')
       .attr({x: x, y: H-FH-h-20, z: 8,
              w: w, h: h});
-	
+  
     var y = H-FH-h-5
     var tweenSeq = [
         [{y: y-3}, 300, 'smootherStep'],
         [{y: y+3}, 300, 'smootherStep']
       ]
-	var hoverboard = Crafty.e('2D, Floor, Motion, Tween, TweenSequenceLoop')
+  var hoverboard = Crafty.e('2D, Floor, Motion, Tween, TweenSequenceLoop')
       .attr({x: x+20, y: y, z: 8,
              w: w-30, h: h})
       .attach(hoverboard_sprite)
